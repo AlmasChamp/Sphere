@@ -73,6 +73,7 @@ func (handle *Handle) OneLink(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == http.MethodDelete {
 		fmt.Println("here method delete")
 		id, _ := strconv.Atoi(r.RequestURI[17:])
+		fmt.Println(id)
 		_, err = handle.DB.Exec(`DELETE FROM links 
 		WHERE id =$1`, id)
 		return
