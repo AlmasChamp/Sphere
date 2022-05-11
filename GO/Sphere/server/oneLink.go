@@ -61,21 +61,23 @@ func (handle *Handle) OneLink(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+
 		_, err = handle.DB.Exec(`UPDATE links 
-		SET activlink = $2,
-		historylink = $3
-		WHERE id =$1`, id, infoLink.ActLink, infoLink.HisLink)
+		SET activlink = $1,
+		historylink = $2
+		WHERE id = $3`, infoLink.ActLink, infoLink.HisLink, id)
 		if err != nil {
 			log.Println(err)
 			return
 		}
+		fmt.Println(id, infoLink.ActLink, infoLink.HisLink)
 		return
 	} else if r.Method == http.MethodDelete {
 		fmt.Println("here method delete")
 		id, _ := strconv.Atoi(r.RequestURI[17:])
 		fmt.Println(id)
 		_, err = handle.DB.Exec(`DELETE FROM links 
-		WHERE id =$1`, id)
+		WHERE id = $1`, id)
 		return
 	}
 
